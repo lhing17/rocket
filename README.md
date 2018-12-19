@@ -21,11 +21,12 @@
 - 数据字典
 
 **规划技术选型**
-- spring boot
-- spring + spring mvc + mybatis
-- spring security / shiro
-- oss
-- druid
-- jpush / rabbitmq
-- redis
-- angular js / rect js
+- 后端全局框架 spring boot
+- MVC框架 spring + spring mvc + mybatis
+- 权限管理 spring security / shiro
+- 文件管理 oss
+- 数据库连接 druid
+- 消息推送 jpush / rabbitmq
+- 缓存层 redis
+- 前端 angular js / rect js
+- 前后端分离中间层 node.js
