@@ -1,6 +1,6 @@
 前后端分离架构，很多团队都是通过“代理转发”浏览器发往后端的rest请求来解决跨域问题，可以用nginx或者node.js模块http-proxy-middleware实现代理。以下是部署架构，在此架构中你把node换成nginx依然成立。
 
-![node_spring_boot](https://github.com/lhing17/rocket/doc/images/node_spring_boot.jpg)
+![node_spring_boot](https://github.com/lhing17/rocket/blob/master/doc/images/node_spring_boot.jpg?raw=true)
 
 Node.js前端服务器的职责:
 
