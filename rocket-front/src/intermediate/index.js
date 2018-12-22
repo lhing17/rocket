@@ -1,73 +1,59 @@
-const createError = require('http-errors');
-const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
+import express from 'express'
+import path from 'path'
+import logger from 'morgan'
+import webpack from 'webpack'
 
+// 引入history模块
+// import history from 'connect-history-api-fallback'
 
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-const proxy = require('http-proxy-middleware');//引入代理模块
+// 正式环境时，下面两个模块不需要引入
+import webpackDevMiddleware from 'webpack-dev-middleware'
+import webpackHotMiddleware from 'webpack-hot-middleware'
 
-const app = express();
+import config from '../../build/webpack.dev.conf'
 
-// 打包VUE项目
-const webpack = require('webpack');
-const webpackDevMiddleWare = require('webpack-dev-middleware');
-const webpackHotMiddleWare = require('webpack-hot-middleware');
-const config = require('../../build/webpack.prod.conf');
+const app = express()
 
-const compiler = webpack(config);
+// 引入history模式让浏览器进行前端路由页面跳转
 
+// uncomment after placing your favicon in /public
+app.use(logger('dev'))
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+app.use(express.static(path.join(__dirname, 'public')))
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({extended: false}));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use(webpackDevMiddleWare(compiler, {
+const compiler = webpack(config)
+//webpack 中间件
+app.use(webpackDevMiddleware(compiler, {
   publicPath: config.output.publicPath,
-  stats: {colors: true},
-}));
+  stats: { colors: true }
+}))
 
-app.use(webpackHotMiddleWare(compiler));
+app.use(webpackHotMiddleware(compiler))
 
-// app.use('/', indexRouter);
-// app.use('/users', usersRouter);
+app.use(express.static(path.join(__dirname, 'views')))
 app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/views/index.html')
-});
-
-app.listen(3000);
-
-/**
- *以下两步对所有异步请求均代理到http://10.100.9.104:8080,比如浏览器发的请求地址为：
- * http://10.100.9.104:3000/orgs/100,则代理地址为http:10.100.9.104:8080/orgs/100（注：10.100.9.104为node部署机器ip）
- */
-let apiProxy = proxy('/', {target: 'http://10.100.9.104:8080', changeOrigin: true});
-
-app.use('/', apiProxy);
-
+  res.sendFile('./views/index.html')
+})
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  next(createError(404));
-});
+  var err = new Error('Not Found')
+  err.status = 404
+  next(err)
+})
 
 // error handler
 app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.status(err.status || 500)
+  console.log(err)
+  res.send(err.message)
+})
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+// 设置监听端口
+const SERVER_PORT = 3000
+app.listen(SERVER_PORT, () => {
+  console.info(`服务已经启动，监听端口${SERVER_PORT}`)
+})
 
-module.exports = app;
+export default app

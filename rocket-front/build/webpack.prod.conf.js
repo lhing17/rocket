@@ -63,7 +63,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      filename: path.join(__dirname, '/src/intermediate/views/index.html'),
+      filename: config.build.index,
       template: 'src/intermediate/views/index.html',
       inject: true,
       minify: {
