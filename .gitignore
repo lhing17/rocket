@@ -27,3 +27,4 @@
 /mvnw
 /.mvn/
 /rocket-front/node_modules/
+/rocket-front/dist/

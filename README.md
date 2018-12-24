@@ -28,5 +28,7 @@
 - 数据库连接 druid
 - 消息推送 jpush / rabbitmq
 - 缓存层 redis
-- 前端 angular js / rect js
-- 前后端分离中间层 node.js
+
+**落地技术选型**
+- 前端 vue
+- 前后端分离中间层 node.js (express)
