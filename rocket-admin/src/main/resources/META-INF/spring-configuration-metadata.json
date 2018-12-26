@@ -20,6 +20,13 @@
       "name": "crypto.next-bytes-size",
       "type": "java.lang.String",
       "description": "Description for crypto.next-bytes-size."
+    },
+    {
+      "sourceType": "cn.gsein.common.config.CryptoConfigProperties",
+      "defaultValue": "12345678",
+      "name": "crypto.token-salt",
+      "type": "java.lang.String",
+      "description": "Description for crypto.token-salt."
     }
   ]
 }

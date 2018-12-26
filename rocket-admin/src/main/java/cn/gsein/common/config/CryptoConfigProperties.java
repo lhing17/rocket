@@ -21,9 +21,14 @@ public class CryptoConfigProperties {
      */
     private int hashIterations;
     /**
-     * 生成盐的字节长度，默认为16
+     * 生成用于密码加密的盐的字节长度，默认为16
      */
     private int nextBytesSize;
+
+    /**
+     * 用于加密token的盐
+     */
+    private String tokenSalt;
 
     public String getAlgorithmName() {
         return algorithmName;
@@ -47,5 +52,13 @@ public class CryptoConfigProperties {
 
     public void setNextBytesSize(int nextBytesSize) {
         this.nextBytesSize = nextBytesSize;
+    }
+
+    public String getTokenSalt() {
+        return tokenSalt;
+    }
+
+    public void setTokenSalt(String tokenSalt) {
+        this.tokenSalt = tokenSalt;
     }
 }

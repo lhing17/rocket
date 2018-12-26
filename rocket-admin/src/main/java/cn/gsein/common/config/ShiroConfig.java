@@ -1,5 +1,7 @@
 package cn.gsein.common.config;
 
+import org.apache.shiro.authc.credential.CredentialsMatcher;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.realm.jdbc.JdbcRealm;
@@ -8,6 +10,7 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 /**
@@ -19,10 +22,13 @@ import javax.sql.DataSource;
 @Configuration
 public class ShiroConfig {
 
+
     /**
      * 通过数据库查询获取用户的密码（密文）
      */
-    private final static String AUTHENTICATION_QUERY = "select password from sys_user where username = ?";
+    private final static String SALTED_AUTHENTICATION_QUERY = "select password, salt from sys_user where username = ?";
+    @Resource
+    private CryptoConfigProperties cryptoConfigProperties;
 
     /**
      * 自定义安全管理器
@@ -55,11 +61,26 @@ public class ShiroConfig {
      * @return 认证数据源的Bean
      */
     @Bean
-    public Realm customRealm(DataSource dataSource) {
+    public Realm customRealm(DataSource dataSource, CredentialsMatcher credentialsMatcher) {
         JdbcRealm realm = new JdbcRealm();
         realm.setDataSource(dataSource);
-        realm.setAuthenticationQuery(AUTHENTICATION_QUERY);
+        realm.setSaltStyle(JdbcRealm.SaltStyle.COLUMN);
+        realm.setAuthenticationQuery(SALTED_AUTHENTICATION_QUERY);
+        realm.setCredentialsMatcher(credentialsMatcher);
         return realm;
+    }
+
+    /**
+     * 密码匹配器
+     *
+     * @return 哈希密码匹配器Bean
+     */
+    @Bean
+    public CredentialsMatcher credentialsMatcher() {
+        HashedCredentialsMatcher matcher = new HashedCredentialsMatcher();
+        matcher.setHashAlgorithmName(cryptoConfigProperties.getAlgorithmName());
+        matcher.setHashIterations(cryptoConfigProperties.getHashIterations());
+        return matcher;
     }
 
 

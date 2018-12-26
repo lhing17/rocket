@@ -44,3 +44,4 @@ crypto:
   algorithm-name: SHA-256
   hash-iterations: 16
   next-bytes-size: 8
+  token-salt: Yj8m74Kq

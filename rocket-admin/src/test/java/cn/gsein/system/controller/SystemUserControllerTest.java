@@ -10,6 +10,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -80,12 +81,13 @@ public class SystemUserControllerTest {
      * 测试保存用户成功的场景
      */
     @Test
+    @Transactional
     public void saveUserSuccess(){
         HttpHeaders headers = new HttpHeaders();
         MultiValueMap<String, Object> paramMap = new LinkedMultiValueMap<>(16);
-        paramMap.add("username", "sisi");
+        paramMap.add("username", "g_seinfeld");
         paramMap.add("password", "123456");
-        paramMap.add("mobile", "13333333333");
+        paramMap.add("mobile", "13253392599");
         paramMap.add("deptId", 1);
         paramMap.add("status", 0);
         HttpEntity<MultiValueMap<String, Object>> httpEntity =
