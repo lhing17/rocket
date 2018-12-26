@@ -1,4 +1,4 @@
-package cn.gsein.system.common.config;
+package cn.gsein.common.config;
 
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.Realm;

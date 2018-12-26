@@ -34,3 +34,13 @@ spring:
         wall:
           config:
             multi-statement-allow: true
+mybatis:
+  mapper-locations: ["classpath:mapper/*.xml"]
+  type-aliases-package: cn.gsein
+  configuration:
+    map-underscore-to-camel-case: true
+
+crypto:
+  algorithm-name: SHA-256
+  hash-iterations: 16
+  next-bytes-size: 8

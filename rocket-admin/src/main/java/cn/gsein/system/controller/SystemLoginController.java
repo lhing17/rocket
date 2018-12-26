@@ -9,17 +9,19 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
+ * 登陆相关的控制器类
+ *
  * @author G.Seinfeld
  * @date 2018/12/25
  */
 @RestController
 public class SystemLoginController extends BaseController {
 
-    @RequestMapping("/system/login")
+    @PostMapping("/system/login")
     public JsonResult login(String username, String password, String captcha) {
         logger.info("用户请求登陆，username: " + username + ", password: " + password);
         // 获取用户
@@ -47,6 +49,8 @@ public class SystemLoginController extends BaseController {
             logger.error("账户验证失败", e);
             return JsonResult.error(ReturnCode.AUTHENTICATION_FAIL);
         }
+
+        // TODO 生成token传递给前台，用于后续无状态的请求
 
         return JsonResult.ok();
     }

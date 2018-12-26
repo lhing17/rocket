@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.gsein.system.mapper.SystemUserMapper">
+    <select id="getUserByUsername" resultType="systemUser">
+        select id, username, password, salt, mobile, dept_id, status
+        from sys_user
+        where username = #{username}
+    </select>
+    <insert id="save" parameterType="systemUser" useGeneratedKeys="true">
+        insert into sys_user (username, password, salt, mobile, dept_id, status)
+        values (#{username}, #{password}, #{salt}, #{mobile}, #{deptId}, #{status})
+    </insert>
+</mapper>

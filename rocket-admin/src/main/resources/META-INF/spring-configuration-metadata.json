@@ -1,0 +1,25 @@
+{
+  "properties": [
+    {
+      "sourceType": "cn.gsein.common.config.CryptoConfigProperties",
+      "name": "crypto.hash-iterations",
+      "type": "java.lang.String",
+      "defaultValue": 16,
+      "description": "Description for crypto.hash-iterations."
+    },
+    {
+      "sourceType": "cn.gsein.common.config.CryptoConfigProperties",
+      "defaultValue": "SHA-256",
+      "name": "crypto.algorithm-name",
+      "type": "java.lang.String",
+      "description": "Description for crypto.algorithm-name."
+    },
+    {
+      "sourceType": "cn.gsein.common.config.CryptoConfigProperties",
+      "defaultValue": 16,
+      "name": "crypto.next-bytes-size",
+      "type": "java.lang.String",
+      "description": "Description for crypto.next-bytes-size."
+    }
+  ]
+}

@@ -25,8 +25,13 @@ public class JsonResult {
     private Object data;
 
     private JsonResult(ReturnCode returnCode, Object data) {
-        this.code = returnCode.getCode();
-        this.message = returnCode.getMessage();
+        if (returnCode == null) {
+            this.code = null;
+            this.message = null;
+        } else {
+            this.code = returnCode.getCode();
+            this.message = returnCode.getMessage();
+        }
         this.data = data;
     }
 
