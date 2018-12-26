@@ -35,6 +35,7 @@ public class SystemUserController extends BaseController {
      */
     @PostMapping("/save")
     public JsonResult save(SystemUser user) {
+        logger.info("请求新增用户，参数为SystemUser: " + user);
 
         // 防御式编程，处理用户名或密码为空的情况
         if (StringUtils.isEmpty(user.getUsername()) || StringUtils.isEmpty(user.getPassword())) {

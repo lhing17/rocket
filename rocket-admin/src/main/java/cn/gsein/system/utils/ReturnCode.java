@@ -16,8 +16,12 @@ public enum ReturnCode {
     LOCKED_ACCOUNT("5003", "账户已被锁定，请联系管理员"),
     USERNAME_EXISTED("5004", "用户名已存在"),
     EMPTY_USERNAME_OR_PASSWORD("5005", "用户名或密码为空"),
+    WRONG_CAPTHA("5006", "图形验证码错误"),
+    CAPTHA_GENERATION_ERROR("5007", "生成图形验证码失败"),
+    NEED_NOT_TO_GENERATE_CAPTCHA("5008", "不需要生成图形验证码"),
     USER_SAVE_FAIL("5098", "保存用户失败"),
     AUTHENTICATION_FAIL("5099", "账户验证失败");
+
     private String code;
     private String message;
 
@@ -27,7 +31,7 @@ public enum ReturnCode {
     }
 
     public String getCode() {
-           return this.code;
+        return this.code;
     }
 
     public String getMessage() {

@@ -12,6 +12,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import javax.annotation.Resource;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+
 /**
  * 登录相关的控制器测试类
  *
@@ -25,6 +27,15 @@ public class SystemLoginControllerTest {
 
     @Resource
     private MockMvc mockMvc;
+
+    /**
+     * 测试不需要生成图形验证码的场景
+     */
+    @Test
+    public void generateCaptcha() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/generateCaptcha"))
+                .andDo(print());
+    }
 
     /**
      * 测试登陆失败的场景——用户不存在
