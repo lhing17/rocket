@@ -94,7 +94,8 @@ public class SystemLoginController extends BaseController {
         Subject subject = SecurityUtils.getSubject();
 
         // 校验验证码
-        if (!StringUtils.isEmpty(session.getAttribute(CAPTCHA)) && !session.getAttribute(CAPTCHA).equals(captcha)) {
+        if (!StringUtils.isEmpty(session.getAttribute(CAPTCHA))
+                && !((String) session.getAttribute(CAPTCHA)).equalsIgnoreCase(captcha)) {
             addFailCount(session);
             return JsonResult.error(ReturnCode.WRONG_CAPTHA);
         }
