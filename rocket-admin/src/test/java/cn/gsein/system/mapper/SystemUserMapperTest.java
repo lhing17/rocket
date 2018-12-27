@@ -37,7 +37,7 @@ public class SystemUserMapperTest {
      */
     @Test
     public void getUserByUsernameNotExists() {
-        SystemUser systemUser = systemUserMapper.getUserByUsername("sisi");
+        SystemUser systemUser = systemUserMapper.getUserByUsername("no_seinfeld");
         Assertions.assertThat(systemUser).isNull();
     }
 
@@ -49,7 +49,7 @@ public class SystemUserMapperTest {
     public void saveUser() {
         SystemUser systemUser =
                 SystemUser.builder()
-                        .username("sisisi")
+                        .username("no_seinfeld")
                         .password("123456")
                         .mobile("13356985462")
                         .deptId(1)
@@ -57,6 +57,18 @@ public class SystemUserMapperTest {
                         .build();
         int result = systemUserMapper.save(systemUser);
         Assertions.assertThat(result).isEqualTo(1);
+    }
 
+    /**
+     * 测试更新用户信息的场景
+     */
+    @Test
+    @Transactional
+    public void updateUser() {
+        SystemUser user = systemUserMapper.getUserByUsername("g_seinfeld");
+        user.setMobile("17549546646");
+        user.setStatus(1);
+        int result = systemUserMapper.update(user);
+        Assertions.assertThat(result).isEqualTo(1);
     }
 }

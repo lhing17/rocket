@@ -11,12 +11,6 @@
     </select>
 
     <!--保存系统用户-->
-    <insert id="save" parameterType="systemUser" useGeneratedKeys="true">
-        insert into sys_user (username, password, salt, mobile, dept_id, status)
-        values (#{username}, #{password}, #{salt}, #{mobile}, #{deptId}, #{status})
-    </insert>
-
-    <!--更新系统用户信息-->
     <update id="update" parameterType="systemUser">
         update sys_user
         <set>
@@ -35,9 +29,16 @@
             <if test="status!=null and status!=''">
                 status = #{status},
             </if>
+            updated_time = current_timestamp()
         </set>
         where username = #{username} and is_deleted = 0
     </update>
+
+    <!--更新系统用户信息-->
+    <insert id="save" parameterType="systemUser" useGeneratedKeys="true">
+        insert into sys_user (username, password, salt, mobile, dept_id, status)
+        values (#{username}, #{password}, #{salt}, #{mobile}, #{deptId}, #{status})
+    </insert>
 
 </mapper>
 

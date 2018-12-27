@@ -76,7 +76,7 @@ public class SystemUserController extends BaseController {
      */
     @PostMapping("/changePassword")
     public JsonResult changePassword(String oldPassword, String newPassword) {
-
+        logger.info("请求修改密码，oldPassword: " + oldPassword + ", newPassword: " + newPassword);
         String username = getLoginUsername();
         // 用户未登录
         if (username == null) {

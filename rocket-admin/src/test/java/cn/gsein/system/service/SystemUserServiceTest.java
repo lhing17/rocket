@@ -37,7 +37,7 @@ public class SystemUserServiceTest {
      */
     @Test
     public void getUserByUserNameNotExists() {
-        SystemUser systemUser = systemUserService.getUserByUsername("sisi");
+        SystemUser systemUser = systemUserService.getUserByUsername("no_seinfeld");
         Assertions.assertThat(systemUser).isNull();
     }
 
@@ -49,13 +49,23 @@ public class SystemUserServiceTest {
     public void saveUser() {
         SystemUser systemUser =
                 SystemUser.builder()
-                        .username("sisi")
+                        .username("no_seinfeld")
                         .password("123456")
                         .mobile("13356985462")
                         .deptId(1)
                         .status(0)
                         .build();
         int result = systemUserService.saveUser(systemUser);
+        Assertions.assertThat(result).isEqualTo(1);
+    }
+
+    /**
+     * 测试修改用户密码的方法
+     */
+    @Test
+    @Transactional
+    public void updatePassword() {
+        int result = systemUserService.updatePassword("g_seinfeld", "654321");
         Assertions.assertThat(result).isEqualTo(1);
     }
 }
