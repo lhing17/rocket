@@ -38,7 +38,7 @@ public class SystemLoginControllerTest {
     }
 
     /**
-     * 测试登陆失败的场景——用户不存在
+     * 测试登录失败的场景——用户不存在
      */
     @Test
     public void loginNoAccount() throws Exception {
@@ -51,7 +51,7 @@ public class SystemLoginControllerTest {
     }
 
     /**
-     * 测试登陆失败的场景——密码错误
+     * 测试登录失败的场景——密码错误
      */
     @Test
     public void loginWrongPassword() throws Exception {
@@ -64,7 +64,7 @@ public class SystemLoginControllerTest {
     }
 
     /**
-     * 测试登陆成功的场景
+     * 测试登录成功的场景
      */
     @Test
     public void loginSuccess() throws Exception {

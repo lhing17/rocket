@@ -1,7 +1,7 @@
 package cn.gsein.system.mapper;
 
 import cn.gsein.system.entity.SystemUser;
-import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * 系统用户相关的持久层
@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @author G.Seinfeld
  * @date 2018/12/26
  */
-@Mapper
+@Repository
 public interface SystemUserMapper extends BaseMapper<SystemUser>{
     /**
      * 根据用户名获取系统用户，注意用户名是唯一的，因此获取到的用户也是唯一的

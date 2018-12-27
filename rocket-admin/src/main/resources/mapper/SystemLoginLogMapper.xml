@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.gsein.system.mapper.SystemLoginLogMapper">
+    <insert id="save" parameterType="systemLoginLog" useGeneratedKeys="true">
+        insert into sys_login_log (username, login_ip, login_time, is_success, login_info)
+        VALUES (#{username}, #{loginIp}, #{loginTime}, #{isSuccess}, #{loginInfo})
+    </insert>
+</mapper>
