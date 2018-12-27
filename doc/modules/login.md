@@ -8,6 +8,7 @@ if 登录成功 then
     生成token
     将token传递给前台
         示例json:{code:"200", message:"登录成功", token:"abc123"}
+    记录登录日志
 else
     返回登录失败的返回码和错误信息
         示例json:{code:"301", message:"用户不存在"}

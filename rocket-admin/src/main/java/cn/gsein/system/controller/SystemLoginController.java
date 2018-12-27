@@ -41,6 +41,9 @@ public class SystemLoginController extends BaseController {
      */
     private static final String FAIL_COUNT = "failCount";
 
+    /**
+     * 验证码生成器
+     */
     @Resource
     DefaultKaptcha defaultKaptcha;
 
@@ -59,7 +62,7 @@ public class SystemLoginController extends BaseController {
             return JsonResult.error(ReturnCode.NEED_NOT_TO_GENERATE_CAPTCHA);
         }
 
-        // 生成图形验证码的文本和图片
+        // 生成图形验证码的文本和图片，将文本保存到Session中
         String text = defaultKaptcha.createText();
         session.setAttribute(CAPTCHA, text);
         BufferedImage image = defaultKaptcha.createImage(text);
@@ -126,6 +129,7 @@ public class SystemLoginController extends BaseController {
 
         // TODO 生成token传递给前台，用于后续无状态的请求
 
+        // TODO 记录登陆日志
 
         return JsonResult.ok();
     }
