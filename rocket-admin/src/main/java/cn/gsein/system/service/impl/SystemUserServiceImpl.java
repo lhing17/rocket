@@ -1,12 +1,10 @@
 package cn.gsein.system.service.impl;
 
 import cn.gsein.common.config.CryptoConfigProperties;
+import cn.gsein.common.util.ShiroUtil;
 import cn.gsein.system.entity.SystemUser;
 import cn.gsein.system.mapper.SystemUserMapper;
 import cn.gsein.system.service.SystemUserService;
-import org.apache.shiro.crypto.RandomNumberGenerator;
-import org.apache.shiro.crypto.SecureRandomNumberGenerator;
-import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -44,21 +42,34 @@ public class SystemUserServiceImpl implements SystemUserService {
      * 将用户密码加密后将用户信息存入数据库中
      *
      * @param user 前端传递过来的用户信息
-     * @return 是否保存成功
+     * @return 是否保存成功，保存成功返回1，否则返回0
      */
     @Override
     public int saveUser(SystemUser user) {
         /*
          *密码加密
          */
-        // 使用随机数生成器生成盐
-        // TODO 提取专门的工具类
-        RandomNumberGenerator generator = new SecureRandomNumberGenerator();
-        String salt = generator.nextBytes(cryptoConfigProperties.getNextBytesSize()).toHex();
+        String salt = ShiroUtil.generateSalt(cryptoConfigProperties);
         user.setSalt(salt);
-        user.setPassword(new SimpleHash(cryptoConfigProperties.getAlgorithmName(),
-                user.getPassword(), salt, cryptoConfigProperties.getHashIterations()).toHex());
+        user.setPassword(ShiroUtil.hashPassword(cryptoConfigProperties, user.getPassword(), salt));
 
         return systemUserMapper.save(user);
+    }
+
+
+    /**
+     * 更新用户的密码
+     * @param username 用户名
+     * @param password 密码
+     * @return 是否更新成功，更新成功返回1，否则返回0
+     */
+    @Override
+    public int updatePassword(String username, String password) {
+        SystemUser user = new SystemUser();
+        user.setUsername(username);
+        String salt = ShiroUtil.generateSalt(cryptoConfigProperties);
+        user.setSalt(salt);
+        user.setPassword(ShiroUtil.hashPassword(cryptoConfigProperties, password, salt));
+        return systemUserMapper.update(user);
     }
 }

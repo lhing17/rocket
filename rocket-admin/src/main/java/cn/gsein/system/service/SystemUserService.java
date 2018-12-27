@@ -24,4 +24,12 @@ public interface SystemUserService {
      * @return 是否保存成功
      */
     int saveUser(SystemUser user);
+
+    /**
+     * 更新用户的密码
+     * @param username 用户名
+     * @param password 密码
+     * @return 是否更新成功，更新成功返回1，否则返回0
+     */
+    int updatePassword(String username, String password);
 }

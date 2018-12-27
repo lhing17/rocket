@@ -19,6 +19,9 @@ public enum ReturnCode {
     WRONG_CAPTHA("5006", "图形验证码错误"),
     CAPTHA_GENERATION_ERROR("5007", "生成图形验证码失败"),
     NEED_NOT_TO_GENERATE_CAPTCHA("5008", "不需要生成图形验证码"),
+    NOT_LOGGING_IN("5009", "用户未登录"),
+    WRONG_OLD_PASSWORD("5010", "旧密码错误"),
+    PASSWORD_UPDATE_FAIL("5097", "修改密码失败"),
     USER_SAVE_FAIL("5098", "保存用户失败"),
     AUTHENTICATION_FAIL("5099", "账户验证失败");
 

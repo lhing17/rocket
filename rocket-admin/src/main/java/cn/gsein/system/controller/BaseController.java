@@ -1,5 +1,6 @@
 package cn.gsein.system.controller;
 
+import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,4 +12,12 @@ import org.slf4j.LoggerFactory;
  */
 public class BaseController {
     protected Logger logger = LoggerFactory.getLogger(BaseController.class);
+
+    /**
+     * 获取登录用户的用户名
+     * @return 用户名，未登录则返回null
+     */
+    public String getLoginUsername(){
+        return (String) SecurityUtils.getSubject().getPrincipal();
+    }
 }

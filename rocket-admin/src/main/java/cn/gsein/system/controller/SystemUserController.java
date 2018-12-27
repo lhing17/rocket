@@ -1,5 +1,7 @@
 package cn.gsein.system.controller;
 
+import cn.gsein.common.config.CryptoConfigProperties;
+import cn.gsein.common.util.ShiroUtil;
 import cn.gsein.system.entity.JsonResult;
 import cn.gsein.system.entity.SystemUser;
 import cn.gsein.system.service.SystemUserService;
@@ -28,6 +30,12 @@ public class SystemUserController extends BaseController {
     private SystemUserService systemUserService;
 
     /**
+     * 加密相关配置
+     */
+    @Resource
+    private CryptoConfigProperties cryptoConfigProperties;
+
+    /**
      * 新增用户
      *
      * @param user 封装的用户信息
@@ -54,6 +62,46 @@ public class SystemUserController extends BaseController {
         // 插入数据库失败的情况
         if (result != 1) {
             return JsonResult.error(ReturnCode.USER_SAVE_FAIL);
+        }
+
+        return JsonResult.ok();
+    }
+
+    /**
+     * 修改密码
+     *
+     * @param oldPassword 旧密码
+     * @param newPassword 新密码
+     * @return 修改密码的结果
+     */
+    @PostMapping("/changePassword")
+    public JsonResult changePassword(String oldPassword, String newPassword) {
+
+        String username = getLoginUsername();
+        // 用户未登录
+        if (username == null) {
+            return JsonResult.error(ReturnCode.NOT_LOGGING_IN);
+        }
+
+        /*
+         *判断旧密码是否正确
+         */
+        SystemUser systemUser = systemUserService.getUserByUsername(username);
+        String salt = systemUser.getSalt();
+        // 从数据库中取出的加密的密码
+        String hashedPassword = systemUser.getPassword();
+        // 对用户提供的密码按原规则进行加密
+        String hashingPassword = ShiroUtil.hashPassword(cryptoConfigProperties, oldPassword, salt);
+        if (!hashedPassword.equals(hashingPassword)) {
+            return JsonResult.error(ReturnCode.WRONG_OLD_PASSWORD);
+        }
+
+        // 加密新密码并更新数据库
+        int result = systemUserService.updatePassword(username, newPassword);
+
+        // 插入数据库失败的情况
+        if (result != 1) {
+            return JsonResult.error(ReturnCode.PASSWORD_UPDATE_FAIL);
         }
 
         return JsonResult.ok();
