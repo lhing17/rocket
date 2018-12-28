@@ -1,20 +1,40 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-import App from './App'
-import router from './router'
-import Element, {Select} from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
+import store from './store/'
+import ElementUI from 'element-ui'
+import './theme/index.css'
+import './assets/css/font-awesome.min.css'
+import './assets/css/style.css'
+import router from './router/'
+import Config from './config/'
+import Api from './api/'
+import Function from './utils/'
 
-Vue.config.productionTip = false;
+import App from './App.vue'
 
-Vue.use(Element);
-Vue.component('rocket-select', Select)
+Vue.prototype.$Api = Api;
+Vue.prototype.$Config = Config;
+Vue.prototype.$Func = Function;
 
-/* eslint-disable no-new */
+Vue.use(ElementUI);
+
+router.beforeEach((to, from, next) => {
+  window.document.title = to.meta.title ? to.meta.title + '-' + Config.siteName : Config.siteName;
+
+  if (!sessionStorage.getItem(Config.tokenKey) && to.path !== '/login') {
+    next({path: '/login'});
+
+  } else {
+    next();
+  }
+});
+router.afterEach(transition => {
+
+});
+
+
 new Vue({
   el: '#app',
   router,
-  components: { App },
-  template: '<App/>'
+  store,
+  render: h => h(App)
 });
