@@ -1,5 +1,8 @@
 package cn.gsein.common.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -9,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
  * @date 2018/12/27
  */
 public class HttpUtil {
+    
+    private static Logger logger = LoggerFactory.getLogger(HttpUtil.class);
     /**
      * 表示IP地址未知
      */
@@ -27,7 +32,7 @@ public class HttpUtil {
      */
     public static String getIpAddr(HttpServletRequest request) {
         String ip = request.getHeader("x-forwarded-for");
-        System.out.println("x-forwarded-for ip: " + ip);
+        logger.debug("x-forwarded-for ip: " + ip);
         if (ip != null && ip.length() != 0 && !UNKNOWN.equalsIgnoreCase(ip)) {
             // 多次反向代理后会有多个ip值，第一个ip才是真实ip
             if (ip.contains(COMMA)) {
@@ -36,29 +41,29 @@ public class HttpUtil {
         }
         if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
             ip = request.getHeader("Proxy-Client-IP");
-            System.out.println("Proxy-Client-IP ip: " + ip);
+            logger.debug("Proxy-Client-IP ip: " + ip);
         }
         if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
             ip = request.getHeader("WL-Proxy-Client-IP");
-            System.out.println("WL-Proxy-Client-IP ip: " + ip);
+            logger.debug("WL-Proxy-Client-IP ip: " + ip);
         }
         if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
             ip = request.getHeader("HTTP_CLIENT_IP");
-            System.out.println("HTTP_CLIENT_IP ip: " + ip);
+            logger.debug("HTTP_CLIENT_IP ip: " + ip);
         }
         if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
             ip = request.getHeader("HTTP_X_FORWARDED_FOR");
-            System.out.println("HTTP_X_FORWARDED_FOR ip: " + ip);
+            logger.debug("HTTP_X_FORWARDED_FOR ip: " + ip);
         }
         if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
             ip = request.getHeader("X-Real-IP");
-            System.out.println("X-Real-IP ip: " + ip);
+            logger.debug("X-Real-IP ip: " + ip);
         }
         if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
             ip = request.getRemoteAddr();
-            System.out.println("getRemoteAddr ip: " + ip);
+            logger.debug("getRemoteAddr ip: " + ip);
         }
-        System.out.println("获取客户端ip: " + ip);
+        logger.debug("获取客户端ip: " + ip);
         return ip;
     }
 }
