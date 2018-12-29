@@ -1,6 +1,9 @@
 package cn.gsein.system.service;
 
 import cn.gsein.system.entity.SystemUser;
+import com.github.pagehelper.PageInfo;
+
+import java.util.List;
 
 /**
  * 系统用户相关的业务层
@@ -32,4 +35,12 @@ public interface SystemUserService {
      * @return 是否更新成功，更新成功返回1，否则返回0
      */
     int updatePassword(String username, String password);
+
+    /**
+     * 获取系统用户的分页列表信息
+     * @param current 当前页码
+     * @param pageSize 每页条数
+     * @return 系统用户的分页列表信息
+     */
+    PageInfo<SystemUser> getUserPageInfo(Integer current, Integer pageSize);
 }

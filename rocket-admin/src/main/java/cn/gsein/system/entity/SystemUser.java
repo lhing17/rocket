@@ -1,9 +1,8 @@
 package cn.gsein.system.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.io.Serializable;
 
 /**
  * 系统用户实体类
@@ -11,11 +10,14 @@ import lombok.NoArgsConstructor;
  * @author G.Seinfeld
  * @date 2018/12/26
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SystemUser {
+public class SystemUser extends BaseEntity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     /**
      * 主键
      */
@@ -32,6 +34,18 @@ public class SystemUser {
      * 密码加密的盐
      */
     private String salt;
+    /**
+     * 昵称
+     */
+    private String nickname;
+    /**
+     * 性别 0-女 1-男
+     */
+    private Integer gender;
+    /**
+     * 电子邮箱
+     */
+    private String email;
     /**
      * 手机号码
      */

@@ -5,9 +5,13 @@ import cn.gsein.common.util.ShiroUtil;
 import cn.gsein.system.entity.SystemUser;
 import cn.gsein.system.mapper.SystemUserMapper;
 import cn.gsein.system.service.SystemUserService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 系统用户相关的业务层
@@ -59,6 +63,7 @@ public class SystemUserServiceImpl implements SystemUserService {
 
     /**
      * 更新用户的密码
+     *
      * @param username 用户名
      * @param password 密码
      * @return 是否更新成功，更新成功返回1，否则返回0
@@ -71,5 +76,23 @@ public class SystemUserServiceImpl implements SystemUserService {
         user.setSalt(salt);
         user.setPassword(ShiroUtil.hashPassword(cryptoConfigProperties, password, salt));
         return systemUserMapper.update(user);
+    }
+
+    /**
+     * 获取系统用户的分页列表信息
+     *
+     * @param current  当前页码
+     * @param pageSize 每页条数
+     * @return 系统用户的分页列表信息
+     */
+    @Override
+    public PageInfo<SystemUser> getUserPageInfo(Integer current, Integer pageSize) {
+        PageHelper.startPage(current, pageSize);
+
+        // 构造查询参数
+        Map<String, Object> conditions = new HashMap<>();
+
+        return new PageInfo<>(systemUserMapper.getByConditions(conditions));
+
     }
 }

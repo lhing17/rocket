@@ -15,6 +15,7 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
@@ -122,6 +123,15 @@ public class SystemUserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("data").isEmpty());
     }
 
+    @Test
+    public void userList() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/system/user/list?current=1&pageSize=2")
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(MockMvcResultMatchers.jsonPath("code").value("200"))
+                .andExpect(MockMvcResultMatchers.jsonPath("message").value("请求成功"))
+                .andExpect(MockMvcResultMatchers.jsonPath("data").hasJsonPath());
+
+    }
 
     private HttpSession getloginSession() throws Exception {
         return mockMvc.perform(MockMvcRequestBuilders.post("/system/login?username=g_seinfeld&password=123456")

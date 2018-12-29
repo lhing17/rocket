@@ -6,7 +6,9 @@ import cn.gsein.system.entity.JsonResult;
 import cn.gsein.system.entity.SystemUser;
 import cn.gsein.system.service.SystemUserService;
 import cn.gsein.system.utils.ReturnCode;
+import com.github.pagehelper.PageInfo;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -105,5 +107,22 @@ public class SystemUserController extends BaseController {
         }
 
         return JsonResult.ok();
+    }
+
+    /**
+     * 获取用户列表
+     *
+     * @param current  当前页数
+     * @param pageSize 每页条数
+     * @return 用户列表JSON对象
+     */
+    @GetMapping("/list")
+    public JsonResult userList(Integer current, Integer pageSize) {
+        PageInfo<SystemUser> pageInfo = systemUserService.getUserPageInfo(current, pageSize);
+        if (pageInfo != null) {
+            return JsonResult.ok(pageInfo);
+        } else {
+            return JsonResult.error(ReturnCode.REQUEST_FAIL);
+        }
     }
 }

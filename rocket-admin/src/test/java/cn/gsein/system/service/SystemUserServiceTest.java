@@ -1,6 +1,7 @@
 package cn.gsein.system.service;
 
 import cn.gsein.system.entity.SystemUser;
+import com.github.pagehelper.PageInfo;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -67,5 +68,17 @@ public class SystemUserServiceTest {
     public void updatePassword() {
         int result = systemUserService.updatePassword("g_seinfeld", "654321");
         Assertions.assertThat(result).isEqualTo(1);
+    }
+
+    /**
+     * 测试获取用户分页信息
+     */
+    @Test
+    public void getUserPageInfo() {
+        PageInfo<SystemUser> pageInfo = systemUserService.getUserPageInfo(1, 2);
+        Assertions.assertThat(pageInfo).hasFieldOrPropertyWithValue("pageNum", 1);
+        Assertions.assertThat(pageInfo).hasFieldOrPropertyWithValue("pageSize", 2);
+        Assertions.assertThat(pageInfo.getList()).extracting("id").containsOnly(1, 11);
+
     }
 }

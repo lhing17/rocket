@@ -1,7 +1,9 @@
 package cn.gsein.system.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -10,8 +12,10 @@ import java.util.Date;
  * @author G.Seinfeld
  * @date 2018/12/27
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class SystemLoginLog {
+public class SystemLoginLog extends BaseEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
     /**
      * 主键
      */

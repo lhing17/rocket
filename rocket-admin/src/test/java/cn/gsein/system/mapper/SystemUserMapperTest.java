@@ -2,6 +2,7 @@ package cn.gsein.system.mapper;
 
 import cn.gsein.system.entity.SystemUser;
 import org.assertj.core.api.Assertions;
+import org.assertj.core.groups.Tuple;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,6 +10,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * 用户持久层测试类
@@ -70,5 +73,15 @@ public class SystemUserMapperTest {
         user.setStatus(1);
         int result = systemUserMapper.update(user);
         Assertions.assertThat(result).isEqualTo(1);
+    }
+
+    /**
+     * 测试根据条件查询
+     */
+    @Test
+    public void getByConditions() {
+        List<SystemUser> systemUserList = systemUserMapper.getByConditions(new HashMap<>());
+        Assertions.assertThat(systemUserList.size()).isEqualTo(3);
+        Assertions.assertThat(systemUserList).extracting("id").contains(1, 11, 16);
     }
 }
