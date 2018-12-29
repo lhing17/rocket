@@ -15,7 +15,7 @@
       </div>
     </ToolBar>
     <el-table
-      :data="usersData"
+      :data="listData"
       border
       ref="table"
       style="width: 100%">
@@ -39,15 +39,15 @@
         prop="sex"
         width="66"
         label="性别">
-        <div slot-scope="scope" style="width: 100%;text-align: center">{{ $Config.sex[scope.row.sex] }}</div>
+        <div slot-scope="scope" style="width: 100%;text-align: center">{{ $Config.sex[scope.row.gender] }}</div>
       </el-table-column>
       <el-table-column
-        prop="active"
+        prop="status"
         width="100"
-        label="是否激活">
+        label="状态">
         <div slot-scope="scope" style="width: 100%;text-align: center">
-          <el-tag v-if="scope.row.active">正常</el-tag>
-          <el-tag v-else type="danger">被删除</el-tag>
+          <el-tag v-if="scope.row.status" type="danger">锁定</el-tag>
+          <el-tag v-else>正常</el-tag>
         </div>
       </el-table-column>
       <el-table-column
@@ -64,108 +64,37 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="currentPage"
-      :page-sizes="[10, 20, 50, 100]"
-      :page-size="pageSize"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="total">
-
-    </el-pagination>
+    <Paginator list-url="/system/user/list" @paginatorToParent="receiveData"></Paginator>
   </div>
 </template>
 
 <script>
   import ToolBar from '@/components/ToolBar.vue';
   import HelpHint from '@/components/HelpHint.vue';
-  import axios from 'axios';
 
-  function getUserList(context) {
-    axios.get(`/system/user/list?current=${context.currentPage}&pageSize=${context.pageSize}`)
-      .then(resp => {
-        if (resp.data && resp.data.code === '200') {
-          context.usersData = resp.data.data;
-        } else {
-          context.usersData = null;
-        }
-      })
-  }
+  import Paginator from "../../components/Paginator";
+
 
   export default {
 
     data() {
       return {
-        total: 40,
-        currentPage: 1,
-        pageSize: 10,
         params: {
           name: '',
         },
-        usersData: [
-          {
-            id: 1,
-            username: 'Admin',
-            nickname: '管理员',
-            email: 'Admin@.admin.com',
-            mobile: '151178xxxx',
-            sex: 'male',
-            active: 1
-          },
-          {
-            id: 2,
-            username: 'SenLin',
-            nickname: '森林',
-            email: 'SenLin@.admin.com',
-            mobile: '151178xxxx',
-            sex: 'unknown',
-            active: 0
-          },
-          {
-            id: 4,
-            username: 'Admin1',
-            nickname: '赵晓',
-            email: 'Admin@.admin.com',
-            mobile: '151178xxxx',
-            sex: 'male',
-            active: 1
-          },
-          {
-            id: 5,
-            username: 'Wujun',
-            nickname: '吴军',
-            email: 'Admin@.admin.com',
-            mobile: '151178xxxx',
-            sex: 'male',
-            active: 1
-          },
-          {
-            id: 5,
-            username: 'Huang',
-            nickname: '黄家',
-            email: 'Admin@.admin.com',
-            mobile: '151178xxxx',
-            sex: 'male',
-            active: 1
-          },
-        ]
+        listData: []
       }
     },
     methods: {
-
-      handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
-      },
-      handleCurrentChange(val) {
-        console.log(`当前页: ${val}`);
+      receiveData(data) {
+        this.listData = data;
       },
       searchUser() {
         let tableRow = this.$refs.table.$el.querySelectorAll('tbody tr');
         let tableRowHeight = tableRow[1].offsetHeight;
         let isjump = false;
-        for (let i = 0; i < this.usersData.length; i++) {
-          if (this.params.name && this.usersData[i].nickname.indexOf(this.params.name) != -1) {
+        for (let i = 0; i < this.listData.length; i++) {
+          if (this.params.name && this.listData[i].nickname.indexOf(this.params.name) != -1) {
             tableRow[i].style.backgroundColor = '#85ce61';
             if (!isjump) {
               scrollTo(0, i * tableRowHeight + 66);
@@ -215,7 +144,7 @@
 
     },
     components: {
-      ToolBar, HelpHint
+      Paginator, ToolBar, HelpHint
     }
   }
 </script>

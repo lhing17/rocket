@@ -7,6 +7,8 @@
                username,
                password,
                salt,
+               nickname,
+               gender,
                email,
                mobile,
                dept_id,
@@ -31,6 +33,12 @@
             <if test="salt!=null and salt!=''">
                 salt = #{salt},
             </if>
+            <if test="nickname!=null and nickname!=''">
+                nickname = #{nickname},
+            </if>
+            <if test="gender!=null and gender!=''">
+                gender = #{gender},
+            </if>
             <if test="email!=null and email!=''">
                 email = #{email},
             </if>
@@ -50,8 +58,8 @@
 
     <!--更新系统用户信息-->
     <insert id="save" parameterType="systemUser" useGeneratedKeys="true">
-        insert into sys_user (username, password, salt, email, mobile, dept_id, status)
-        values (#{username}, #{password}, #{salt}, #{email}, #{mobile}, #{deptId}, #{status})
+        insert into sys_user (username, password, salt, nickname, gender, email, mobile, dept_id, status)
+        values (#{username}, #{password}, #{salt},#{nickname}, #{gender}, #{email}, #{mobile}, #{deptId}, #{status})
     </insert>
 
     <!-- 根据条件查询 -->
