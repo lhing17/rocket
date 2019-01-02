@@ -7,9 +7,11 @@ import cn.gsein.system.entity.SystemUser;
 import cn.gsein.system.service.SystemUserService;
 import cn.gsein.system.utils.ReturnCode;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,6 +45,7 @@ public class SystemUserController extends BaseController {
      * @param user 封装的用户信息
      * @return JSON结果
      */
+    @RequiresPermissions("system:user:save")
     @PostMapping("/save")
     public JsonResult save(SystemUser user) {
         logger.info("请求新增用户，参数为SystemUser: " + user);
@@ -76,7 +79,7 @@ public class SystemUserController extends BaseController {
      * @param newPassword 新密码
      * @return 修改密码的结果
      */
-    @PostMapping("/changePassword")
+    @PutMapping("/changePassword")
     public JsonResult changePassword(String oldPassword, String newPassword) {
         logger.info("请求修改密码，oldPassword: " + oldPassword + ", newPassword: " + newPassword);
         String username = getLoginUsername();
@@ -116,6 +119,7 @@ public class SystemUserController extends BaseController {
      * @param pageSize 每页条数
      * @return 用户列表JSON对象
      */
+    @RequiresPermissions("system:user:list")
     @GetMapping("/list")
     public JsonResult userList(Integer current, Integer pageSize) {
         PageInfo<SystemUser> pageInfo = systemUserService.getUserPageInfo(current, pageSize);

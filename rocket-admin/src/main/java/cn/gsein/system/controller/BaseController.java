@@ -11,13 +11,13 @@ import org.slf4j.LoggerFactory;
  * @date 2018/12/25
  */
 public class BaseController {
-    protected Logger logger = LoggerFactory.getLogger(BaseController.class);
+    Logger logger = LoggerFactory.getLogger(BaseController.class);
 
     /**
      * 获取登录用户的用户名
      * @return 用户名，未登录则返回null
      */
-    public String getLoginUsername(){
+    String getLoginUsername(){
         return (String) SecurityUtils.getSubject().getPrincipal();
     }
 }

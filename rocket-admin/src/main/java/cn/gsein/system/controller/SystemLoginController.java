@@ -94,6 +94,21 @@ public class SystemLoginController extends BaseController {
     }
 
     /**
+     * 查询登录状态
+     * @param request 请求对象
+     * @return 请求结果的JSON对象
+     */
+    @GetMapping("/system/checkLoginStatus")
+    public JsonResult checkLoginStatus(HttpServletRequest request) {
+        logger.info("用户请求查询登陆状态，IP地址：" + HttpUtil.getIpAddr(request));
+        String username = getLoginUsername();
+        if (username == null){
+            return JsonResult.error(ReturnCode.NOT_LOGGING_IN);
+        }
+        return JsonResult.ok(username);
+    }
+
+    /**
      * 登录请求
      *
      * @param username 用户名

@@ -66,6 +66,7 @@ public class ShiroConfig {
         Map<String, String> map = new HashMap<>(16);
         map.put("/system/login", "anon");
         map.put("/system/checkLoginStatus", "anon");
+        map.put("/generateCaptcha", "anon");
         map.put("/**", "authc");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
