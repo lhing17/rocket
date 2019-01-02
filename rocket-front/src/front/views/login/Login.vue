@@ -52,7 +52,6 @@
       login() {
         let APP = this;
         APP.loginLoading = true;
-        console.log(APP.$Api);
         APP.$Api.login(this.username, this.password)
           .then(resp => {
               APP.loginLoading = false;
@@ -72,18 +71,6 @@
               }
             }
           )
-          .catch((resp) => console.log(resp.status));
-
-        // setTimeout(() => {
-        //   sessionStorage.setItem(APP.$Config.tokenKey, '123456789');
-        //   APP.$notify({
-        //     title: '登录成功',
-        //     message: '很高兴你使用ElementUIAdmin！别忘了给个Star哦。',
-        //     type: 'success'
-        //   });
-        //   APP.loginLoading = false;
-        //   APP.$router.push({path: '/'});
-        // }, 1000);
       }
     }
   }
