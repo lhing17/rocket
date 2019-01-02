@@ -1,11 +1,7 @@
-import user from './user';
-import file from './file';
-import permissions from './permissions'
+import login from './login';
 
 let allApi = Object.assign(
-  user,
-  file,
-  permissions
+  login,
 );
 
 export default allApi;

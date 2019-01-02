@@ -15,7 +15,6 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
@@ -40,6 +39,7 @@ public class SystemUserControllerTest {
 
     @Resource
     private MockMvc mockMvc;
+
 
     /**
      * 测试用户名为空的场景
@@ -102,6 +102,7 @@ public class SystemUserControllerTest {
         paramMap.add("deptId", "1");
         paramMap.add("status", "0");
         mockMvc.perform(MockMvcRequestBuilders.post("/system/user/save")
+                .session((MockHttpSession) getloginSession())
                 .params(paramMap)
                 .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(MockMvcResultMatchers.jsonPath("code").value("200"))

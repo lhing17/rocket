@@ -1,5 +1,6 @@
 package cn.gsein.common.config;
 
+import cn.gsein.common.filter.CustomFormAuthenticationFilter;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
@@ -11,7 +12,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.Resource;
+import javax.servlet.Filter;
 import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Shiro安全框架相关的配置，主要是注册一些Bean，满足必要的配置，或替换掉一些不符合使用场景的缺省配置
@@ -52,6 +56,19 @@ public class ShiroConfig {
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
+
+        // 自定义过滤器
+        Map<String, Filter> filters = new HashMap<>(16);
+        filters.put("authc", new CustomFormAuthenticationFilter());
+        shiroFilterFactoryBean.setFilters(filters);
+
+        // 权限验证的过滤器链
+        Map<String, String> map = new HashMap<>(16);
+        map.put("/system/login", "anon");
+        map.put("/system/checkLoginStatus", "anon");
+        map.put("/**", "authc");
+
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
         return shiroFilterFactoryBean;
     }
 

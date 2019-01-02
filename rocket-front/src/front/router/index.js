@@ -5,7 +5,6 @@ import Personal from './personal'
 Vue.use(Router);
 
 
-
 let RouteList = [
   {
     path: '/',
@@ -116,6 +115,7 @@ RouteList[0].children.push({
   component: resolve => require(['@/views/developmentTool/Build.vue'], resolve),
 });
 
-export default new Router({routes: RouteList})
+const router = new Router({routes: RouteList});
+export default router
 
 

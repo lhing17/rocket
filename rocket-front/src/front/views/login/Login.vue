@@ -38,8 +38,6 @@
 </template>
 
 <script>
-  import axios from 'axios'
-  import qs from 'qs'
 
   export default {
     data() {
@@ -54,12 +52,13 @@
       login() {
         let APP = this;
         APP.loginLoading = true;
-        axios.post("/system/login", qs.stringify({username: this.username, password: this.password}))
+        console.log(APP.$Api);
+        APP.$Api.login(this.username, this.password)
           .then(resp => {
               APP.loginLoading = false;
-            if (resp.data && resp.data.code === '200') {
-              APP.$router.push({path: '/'});
-              APP.$notify({
+              if (resp.data && resp.data.code === '200') {
+                APP.$router.push({path: '/'});
+                APP.$notify({
                   title: '登录成功',
                   message: '很高兴你使用ElementUIAdmin！别忘了给个Star哦。',
                   type: 'success'
