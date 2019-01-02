@@ -10,5 +10,10 @@ export default {
         username,
         password
       })
+    }),
+  checkLoginStatus: () =>
+    request({
+      url: '/system/checkLoginStatus',
+      method: 'get'
     })
 };

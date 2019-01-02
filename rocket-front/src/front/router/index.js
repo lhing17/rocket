@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Personal from './personal'
+import Config from "../config";
 
 Vue.use(Router);
 
@@ -115,7 +116,42 @@ RouteList[0].children.push({
   component: resolve => require(['@/views/developmentTool/Build.vue'], resolve),
 });
 
+
 const router = new Router({routes: RouteList});
+
+import axios from 'axios';
+
+router.beforeEach((to, from, next) => {
+  window.document.title = to.meta.title ? to.meta.title + '-' + Config.siteName : Config.siteName;
+  if (to.path === '/' || to.meta.requireAuth) {
+    axios.get('/system/checkLoginStatus')
+      .then(resp => {
+          if (resp.data && resp.data.code === '200') {
+            next();
+          } else {
+            next({
+              path: '/login',
+              query: {redirect: to.fullPath}
+            });
+          }
+        }
+      );
+  } else {
+    next();
+  }
+
+
+  // if (!sessionStorage.getItem(Config.tokenKey) && to.path !== '/login') {
+  //   next({path: '/login'});
+  //
+  // } else {
+  //   next();
+  // }
+});
+router.afterEach(transition => {
+
+});
+
 export default router
 
 
