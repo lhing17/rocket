@@ -19,20 +19,12 @@ public interface BaseMapper<T> {
     int save(T t);
 
     /**
-     * 更新实体
+     * 更新实体，默认是根据ID修改，如果需要根据其他字段修改，请另外编写方法
      *
      * @param t 实体对象
      * @return 更新成功返回1，否则返回0
      */
     int update(T t);
-
-    /**
-     * 删除实体对应的数据
-     *
-     * @param t 实体对象
-     * @return 删除成功返回1，否则返回0
-     */
-    int delete(T t);
 
     /**
      * 根据ID删除数据

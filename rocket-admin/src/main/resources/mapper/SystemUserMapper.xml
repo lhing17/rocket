@@ -15,16 +15,7 @@
                status
         from sys_user
     </sql>
-
-    <!--通过用户名获取用户-->
-    <select id="getUserByUsername" resultType="systemUser">
-        <include refid="baseGet"/>
-        where username = #{username}
-        and is_deleted = 0
-    </select>
-
-    <!--保存系统用户-->
-    <update id="update" parameterType="systemUser">
+    <sql id="baseUpdate">
         update sys_user
         <set>
             <if test="password!=null and password!=''">
@@ -53,20 +44,48 @@
             </if>
             updated_time = current_timestamp()
         </set>
-        where username = #{username} and is_deleted = 0
-    </update>
+    </sql>
 
-    <!--更新系统用户信息-->
-    <insert id="save" parameterType="systemUser" useGeneratedKeys="true">
-        insert into sys_user (username, password, salt, nickname, gender, email, mobile, dept_id, status)
-        values (#{username}, #{password}, #{salt},#{nickname}, #{gender}, #{email}, #{mobile}, #{deptId}, #{status})
-    </insert>
+    <!--通过用户名获取用户-->
+    <select id="getByUsername" resultType="systemUser">
+        <include refid="baseGet"/>
+        where username = #{username}
+        and is_deleted = 0
+    </select>
+
+    <!--通过ID获取用户-->
+    <select id="getById" resultType="systemUser">
+        <include refid="baseGet"/>
+        where id = #{id}
+        and is_deleted = 0
+    </select>
 
     <!-- 根据条件查询 -->
     <select id="getByConditions" parameterType="map" resultType="systemUser">
         <include refid="baseGet"/>
         where is_deleted = 0
     </select>
+
+    <!--根据用户名修改系统用户-->
+    <update id="updateByUsername" parameterType="systemUser">
+        <include refid="baseUpdate"/>
+        where username = #{username} and is_deleted = 0
+    </update>
+
+    <!--根据ID删除用户-->
+    <update id="deleteById" parameterType="integer">
+        update sys_user
+        set is_deleted   = 1,
+            updated_time = current_timestamp()
+        where id = #{id}
+    </update>
+
+    <!--更新系统用户信息-->
+    <insert id="save" parameterType="systemUser" useGeneratedKeys="true">
+        insert into sys_user (username, password, salt, nickname, gender, email, mobile, dept_id, status)
+        values (#{username}, #{password}, #{salt}, #{nickname}, #{gender}, #{email}, #{mobile}, #{deptId}, #{status})
+    </insert>
+
 
 </mapper>
 

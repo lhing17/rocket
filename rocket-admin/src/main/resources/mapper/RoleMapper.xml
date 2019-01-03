@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.gsein.system.mapper.RoleMapper">
+    <select id="getRolesByUserId" parameterType="integer" resultType="role">
+        select r.id, r.name, r.description, r.is_deleted, r.created_time, r.updated_time
+        from sys_role r
+                 left join sys_user_role ur on r.id = ur.role_id
+        where ur.user_id = #{userId}
+          and r.is_deleted = 0
+          and ur.is_deleted = 0
+    </select>
+    <insert id="save" parameterType="role" useGeneratedKeys="true">
+        insert into sys_role (name, description)
+        values (#{name}, #{description})
+    </insert>
+</mapper>

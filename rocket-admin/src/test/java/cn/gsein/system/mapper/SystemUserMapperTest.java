@@ -2,7 +2,6 @@ package cn.gsein.system.mapper;
 
 import cn.gsein.system.entity.SystemUser;
 import org.assertj.core.api.Assertions;
-import org.assertj.core.groups.Tuple;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,17 +29,35 @@ public class SystemUserMapperTest {
      * 测试用户存在的场景
      */
     @Test
-    public void getUserByUsernameExists() {
-        SystemUser systemUser = systemUserMapper.getUserByUsername("g_seinfeld");
+    public void getByUsernameExists() {
+        SystemUser systemUser = systemUserMapper.getByUsername("g_seinfeld");
         Assertions.assertThat(systemUser).hasFieldOrPropertyWithValue("id", 1);
+    }
+
+    /**
+     * 测试用户存在的场景
+     */
+    @Test
+    public void getByIdExists() {
+        SystemUser systemUser = systemUserMapper.getById(1);
+        Assertions.assertThat(systemUser).hasFieldOrPropertyWithValue("username", "g_seinfeld");
     }
 
     /**
      * 测试用户不存在的场景
      */
     @Test
-    public void getUserByUsernameNotExists() {
-        SystemUser systemUser = systemUserMapper.getUserByUsername("no_seinfeld");
+    public void getByUsernameNotExists() {
+        SystemUser systemUser = systemUserMapper.getByUsername("no_seinfeld");
+        Assertions.assertThat(systemUser).isNull();
+    }
+
+    /**
+     * 测试用户不存在的场景
+     */
+    @Test
+    public void getByIdNotExists() {
+        SystemUser systemUser = systemUserMapper.getById(4);
         Assertions.assertThat(systemUser).isNull();
     }
 
@@ -68,11 +85,34 @@ public class SystemUserMapperTest {
     @Test
     @Transactional
     public void updateUser() {
-        SystemUser user = systemUserMapper.getUserByUsername("g_seinfeld");
+        SystemUser user = systemUserMapper.getByUsername("g_seinfeld");
         user.setMobile("17549546646");
         user.setStatus(1);
-        int result = systemUserMapper.update(user);
+        int result = systemUserMapper.updateByUsername(user);
         Assertions.assertThat(result).isEqualTo(1);
+    }
+
+    /**
+     * 测试删除用户信息的场景
+     */
+    @Test
+    @Transactional
+    public void deleteByIdExists() {
+        Integer userId = 1;
+        int result = systemUserMapper.deleteById(userId);
+        SystemUser systemUser = systemUserMapper.getById(1);
+        Assertions.assertThat(result).isEqualTo(1);
+        Assertions.assertThat(systemUser).isNull();
+    }
+    /**
+     * 测试删除用户信息不存在的场景
+     */
+    @Test
+    @Transactional
+    public void deleteByIdNotExists() {
+        Integer userId = 4;
+        int result = systemUserMapper.deleteById(userId);
+        Assertions.assertThat(result).isEqualTo(0);
     }
 
     /**

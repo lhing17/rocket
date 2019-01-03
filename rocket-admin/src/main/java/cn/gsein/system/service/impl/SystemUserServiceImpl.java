@@ -39,7 +39,7 @@ public class SystemUserServiceImpl implements SystemUserService {
      */
     @Override
     public SystemUser getUserByUsername(String username) {
-        return systemUserMapper.getUserByUsername(username);
+        return systemUserMapper.getByUsername(username);
     }
 
     /**
@@ -75,7 +75,7 @@ public class SystemUserServiceImpl implements SystemUserService {
         String salt = ShiroUtil.generateSalt(cryptoConfigProperties);
         user.setSalt(salt);
         user.setPassword(ShiroUtil.hashPassword(cryptoConfigProperties, password, salt));
-        return systemUserMapper.update(user);
+        return systemUserMapper.updateByUsername(user);
     }
 
     /**

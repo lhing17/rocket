@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.gsein.system.mapper.MenuMapper">
+    <sql id="baseGet">
+        select m.id,
+               m.name,
+               m.url,
+               m.icon,
+               m.description,
+               m.pid,
+               m.enabled,
+               m.is_deleted,
+               m.created_time,
+               m.updated_time
+        from sys_menu m
+    </sql>
+
+    <select id="getMenusByRoleId" parameterType="integer" resultType="menu">
+        <include refid="baseGet"/>
+        left join sys_role_menu rm on m.id = rm.menu_id
+        where rm.role_id = #{roleId}
+        and m.is_deleted = 0
+        and rm.is_deleted = 0
+    </select>
+
+    <select id="getMenusByRoleIds" parameterType="list" resultType="menu">
+        <include refid="baseGet"/>
+        left join sys_role_menu rm on m.id = rm.menu_id
+        where rm.role_id in
+        <foreach collection="list" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+        and m.is_deleted = 0
+        and rm.is_deleted = 0
+    </select>
+
+    <insert id="save" parameterType="menu" useGeneratedKeys="true">
+        insert into sys_menu
+            (name, url, icon, description, pid, enabled)
+        values (#{name}, #{url}, #{icon}, #{description}, #{pid}, #{enabled})
+    </insert>
+</mapper>
