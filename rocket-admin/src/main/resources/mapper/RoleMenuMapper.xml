@@ -9,8 +9,8 @@
 
     <update id="deleteByRoleId" parameterType="integer">
         update sys_role_menu
-        set is_deleted   = 0,
-            updated_time = current_timestamp
-        where role_id = #{roleId}
+        set is_deleted   = 1,
+            updated_time = current_timestamp()
+        where role_id = #{roleId} and is_deleted = 0
     </update>
 </mapper>

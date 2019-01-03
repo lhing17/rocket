@@ -27,7 +27,7 @@
             <if test="nickname!=null and nickname!=''">
                 nickname = #{nickname},
             </if>
-            <if test="gender!=null and gender!=''">
+            <if test="gender!=null">
                 gender = #{gender},
             </if>
             <if test="email!=null and email!=''">
@@ -36,10 +36,10 @@
             <if test="mobile!=null and mobile!=''">
                 mobile = #{mobile},
             </if>
-            <if test="deptId!=null and deptId!=''">
+            <if test="deptId!=null">
                 dept_id = #{deptId},
             </if>
-            <if test="status!=null and status!=''">
+            <if test="status!=null">
                 status = #{status},
             </if>
             updated_time = current_timestamp()
@@ -77,7 +77,7 @@
         update sys_user
         set is_deleted   = 1,
             updated_time = current_timestamp()
-        where id = #{id}
+        where id = #{id} and is_deleted = 0
     </update>
 
     <!--更新系统用户信息-->

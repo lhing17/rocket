@@ -9,8 +9,9 @@
 
     <update id="deleteByUserId" parameterType="integer">
         update sys_user_role
-        set is_deleted  = 1,
-            updated_time=current_timestamp
+        set is_deleted   = 1,
+            updated_time = current_timestamp()
         where user_id = #{userId}
+          and is_deleted = 0
     </update>
 </mapper>

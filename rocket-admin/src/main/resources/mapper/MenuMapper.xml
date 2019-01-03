@@ -35,9 +35,49 @@
         and rm.is_deleted = 0
     </select>
 
+    <select id="getById" parameterType="integer" resultType="menu">
+        <include refid="baseGet"/>
+        where m.id = #{id} and m.is_deleted = 0
+    </select>
+
     <insert id="save" parameterType="menu" useGeneratedKeys="true">
         insert into sys_menu
             (name, url, icon, description, pid, enabled)
         values (#{name}, #{url}, #{icon}, #{description}, #{pid}, #{enabled})
     </insert>
+
+    <update id="deleteById" parameterType="integer">
+        update sys_menu
+        set is_deleted   = 1,
+            updated_time = current_timestamp()
+        where id = #{id} and is_deleted = 0
+    </update>
+
+    <update id="update" parameterType="menu">
+        update sys_menu
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="url != null and url != ''">
+                url = #{url},
+            </if>
+            <if test="icon != null and icon != ''">
+                icon = #{icon},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="pid != null">
+                pid = #{pid},
+            </if>
+            <if test="enabled != null">
+                enabled = #{enabled},
+            </if>
+            updated_time = current_timestamp()
+        </set>
+        where id = #{id} and is_deleted = 0
+    </update>
+
+
 </mapper>
