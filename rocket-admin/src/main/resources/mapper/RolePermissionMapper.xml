@@ -4,7 +4,7 @@
 <mapper namespace="cn.gsein.system.mapper.RolePermissionMapper">
     <insert id="save" parameterType="rolePermission">
         insert into sys_role_permission (role_id, permission_id)
-        values (#{roleId}, #{permissionID})
+        values (#{roleId}, #{permissionId})
     </insert>
 
     <update id="deleteByRoleId" parameterType="integer">

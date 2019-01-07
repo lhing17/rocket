@@ -1,6 +1,6 @@
 package cn.gsein.system.mapper;
 
-import cn.gsein.system.entity.RoleMenu;
+import cn.gsein.system.entity.RolePermission;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,39 +10,40 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
+import static org.junit.Assert.*;
+
 /**
- * 菜单-角色对应关系持久层测试类
- *
  * @author G.Seinfeld
- * @date 2019/1/3
+ * @date 2019/01/07
  */
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class RoleMenuMapperTest {
+public class RolePermissionMapperTest {
 
     @Resource
-    RoleMenuMapper roleMenuMapper;
+    RolePermissionMapper rolePermissionMapper;
 
     /**
-     * 测试保存菜单-角色对应关系
+     * 测试保存角色-权限数据
      */
     @Test
     @Transactional
     public void save() {
-        RoleMenu roleMenu = new RoleMenu();
-        roleMenu.setRoleId(1);
-        roleMenu.setMenuId(1);
-        int result = roleMenuMapper.save(roleMenu);
+        RolePermission rolePermission = new RolePermission();
+        rolePermission.setRoleId(1);
+        rolePermission.setPermissionId(1);
+
+        int result = rolePermissionMapper.save(rolePermission);
         Assertions.assertThat(result).isEqualTo(1);
     }
 
     /**
-     * 测试根据角色ID删除所有角色-菜单关系
+     * 测试根据ID删除所有角色-权限数据
      */
     @Test
     @Transactional
-    public void deleteByRoleId() {
-        int result = roleMenuMapper.deleteByRoleId(1);
+    public void deleteByRoleId(){
+        int result = rolePermissionMapper.deleteByRoleId(1);
         Assertions.assertThat(result).isEqualTo(2);
     }
 }

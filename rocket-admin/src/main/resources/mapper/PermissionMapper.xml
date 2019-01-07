@@ -28,7 +28,7 @@
 
     <select id="getById" parameterType="integer" resultType="permission">
         <include refid="baseGet"/>
-        where p.is_deleted = 0
+        where p.id = #{id} and p.is_deleted = 0
     </select>
 
 
@@ -45,11 +45,11 @@
             <if test="label != null and label != ''">
                 label = #{label},
             </if>
-            <if test="menu_id != null">
+            <if test="menuId != null">
                 menu_id = #{menuId},
             </if>
             <if test="description != null and description != ''">
-                description = #{description}
+                description = #{description},
             </if>
             updated_time = current_timestamp()
         </set>
