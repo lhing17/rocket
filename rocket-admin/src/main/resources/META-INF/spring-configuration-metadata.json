@@ -27,6 +27,11 @@
       "name": "crypto.token-salt",
       "type": "java.lang.String",
       "description": "Description for crypto.token-salt."
+    },
+    {
+      "name": "spring.datasource.publicKey",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.publicKey."
     }
   ]
 }
