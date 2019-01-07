@@ -34,4 +34,4 @@
 - 后端全局框架 spring boot
 - MVC框架 spring + spring mvc + mybatis
 - 权限管理  shiro
-- 数据库连接 conf
+- 数据库连接 druid
