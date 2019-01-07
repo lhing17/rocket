@@ -1,15 +1,14 @@
 server:
   port: 8000
-
 spring:
   datasource:
-    publicKey: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJoy45GGQh9l/MU+ctcx5Igtvbuedz0rJ7SMNjTPcVOu2UfXwi9Q94Z9omBQ4/x7Npgyk/w0EznwycbpofEAFRUCAwEAAQ==
+    publicKey: config.file=classpath:conf/druid.properties
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.cj.jdbc.Driver
     druid:
       url: jdbc:mysql://10.100.13.133:3306/rocket?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
       username: root
-      password: h5jUMdC16Wv3WlytzXj3SBK75Ax6n35q8/HHK2CvBR8oTsNXiThrABfRiuKBB1Mr7RFK/14Gg80x8yJ2zTBKCg==
+      password: config.file=classpath:conf/druid.properties
       initial-size: 10
       max-active: 100
       min-idle: 10
@@ -24,7 +23,7 @@ spring:
       test-on-return: false
       stat-view-servlet:
         enabled: true
-        url-pattern: /druid/*
+        url-pattern: /conf/*
         #login-username: admin
         #login-password: admin
       filter:
@@ -39,6 +38,8 @@ spring:
         config.decrypt: true
         config.decrypt.key: ${spring.datasource.publicKey}
       filters: config
+  profiles:
+    include: druid
 mybatis:
   mapper-locations: ["classpath:mapper/*.xml"]
   type-aliases-package: cn.gsein
