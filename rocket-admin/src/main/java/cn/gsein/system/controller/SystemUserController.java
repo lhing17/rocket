@@ -122,6 +122,8 @@ public class SystemUserController extends BaseController {
     @RequiresPermissions("system:user:list")
     @GetMapping("/list")
     public JsonResult userList(Integer current, Integer pageSize) {
+        logger.info("请求用户列表，参数为current: " + current + ", pageSize: " + pageSize);
+
         PageInfo<SystemUser> pageInfo = systemUserService.getUserPageInfo(current, pageSize);
         if (pageInfo != null) {
             return JsonResult.ok(pageInfo);

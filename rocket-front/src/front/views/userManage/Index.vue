@@ -65,6 +65,13 @@
       </el-table-column>
     </el-table>
     <Paginator list-url="/system/user/list" @paginatorToParent="receiveData"></Paginator>
+    <user-edit
+      :title="userEdit"
+      :dialogFormVisible="dialogFormVisible"
+      @cancel="dialogFormVisible = false"
+    >
+
+    </user-edit>
   </div>
 </template>
 
@@ -73,7 +80,7 @@
   import HelpHint from '@/components/HelpHint.vue';
 
   import Paginator from "../../components/Paginator";
-
+  import UserEdit from './UserEdit'
 
   export default {
 
@@ -82,7 +89,9 @@
         params: {
           name: '',
         },
-        listData: []
+        listData: [],
+        userEdit: '编辑用户',
+        dialogFormVisible: false
       }
     },
     methods: {
@@ -94,7 +103,7 @@
         let tableRowHeight = tableRow[1].offsetHeight;
         let isjump = false;
         for (let i = 0; i < this.listData.length; i++) {
-          if (this.params.name && this.listData[i].nickname.indexOf(this.params.name) != -1) {
+          if (this.params.name && this.listData[i].nickname.indexOf(this.params.name) !== -1) {
             tableRow[i].style.backgroundColor = '#85ce61';
             if (!isjump) {
               scrollTo(0, i * tableRowHeight + 66);
@@ -114,7 +123,7 @@
         }, '操作');
       },
       editUser(data) {
-
+        this.dialogFormVisible = true;
       },
       UploadUser(data) {
 
@@ -133,7 +142,7 @@
         dom.style.transform = 'rotate(180deg)';
         setTimeout(() => {
           dom.style.transform = 'rotate(0deg)'
-        }, 600)
+        }, 600);
         this.$message({
           message: '已经成功重置密码',
           type: 'success'
@@ -144,7 +153,7 @@
 
     },
     components: {
-      Paginator, ToolBar, HelpHint
+      Paginator, ToolBar, HelpHint, UserEdit
     }
   }
 </script>

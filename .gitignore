@@ -29,3 +29,4 @@
 /rocket-front/node_modules/
 /rocket-front/dist/
 /rocket-admin/src/main/resources/application-druid.yml
+/rocket-admin/src/test/resources/
