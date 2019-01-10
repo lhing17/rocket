@@ -83,6 +83,8 @@
   import Paginator from "../../components/Paginator";
   import UserEdit from './UserEdit'
 
+  import qs from 'qs'
+
 
   export default {
 
@@ -129,7 +131,7 @@
       },
       saveUser(data) {
         this.$Api.saveUser(data).then(resp => {
-          if (resp.data && resp.data.code === '200'){
+          if (resp.data && resp.data.code === '200') {
             this.$refs.paginator.paginate();
           }
           console.log(resp);
@@ -148,16 +150,26 @@
 
       },
       resetting(id) {
-
         let dom = this.$refs[id].$el;
         dom.style.transform = 'rotate(180deg)';
-        setTimeout(() => {
-          dom.style.transform = 'rotate(0deg)'
-        }, 600);
-        this.$message({
-          message: '已经成功重置密码',
-          type: 'success'
-        });
+        this.$Api.resetPassword(id).then(
+          resp => {
+            console.log(resp);
+            dom.style.transform = 'rotate(0deg)';
+            if (resp.data && resp.data.code === '200') {
+              this.$message({
+                message: '已经成功重置密码',
+                type: 'success'
+              });
+            } else {
+              this.$message({
+                message: resp.data.message,
+                type: 'error'
+              });
+            }
+          }
+        );
+
 
       },
 

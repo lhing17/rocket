@@ -3,8 +3,6 @@ package cn.gsein.system.service;
 import cn.gsein.system.entity.SystemUser;
 import com.github.pagehelper.PageInfo;
 
-import java.util.List;
-
 /**
  * 系统用户相关的业务层
  *
@@ -20,6 +18,13 @@ public interface SystemUserService {
      * @return 系统用户
      */
     SystemUser getUserByUsername(String username);
+
+    /**
+     * 根据ID获取系统用户
+     * @param userId 用户ID
+     * @return 系统用户
+     */
+    SystemUser getUserById(Integer userId);
 
     /**
      * 将用户密码加密后将用户信息存入数据库中

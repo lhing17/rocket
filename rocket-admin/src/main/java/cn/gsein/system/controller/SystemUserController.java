@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 系统用户相关的控制器类
@@ -60,7 +61,7 @@ public class SystemUserController extends BaseController {
         }
 
         // 如果密码为空，设置为初始密码
-        if(StringUtils.isEmpty(user.getPassword())){
+        if (StringUtils.isEmpty(user.getPassword())) {
             user.setPassword(initialPassword);
         }
 
@@ -80,6 +81,39 @@ public class SystemUserController extends BaseController {
 
         return JsonResult.ok();
     }
+
+    /**
+     * 管理员重置密码
+     *
+     * @param newPassword 重置的新密码，如为空，则重置为默认密码
+     * @return 重置密码的结果
+     */
+    @RequiresPermissions("system:user:reset")
+    @PutMapping("/resetPassword")
+    public JsonResult resetPassword(HttpServletRequest request, String userId, String newPassword) {
+        logger.info("管理员请求重置密码，userId: " + userId + ", newPassword: " + newPassword);
+
+        // 用户ID为空
+        if (StringUtils.isEmpty(userId)) {
+            return JsonResult.error(ReturnCode.PASSWORD_UPDATE_FAIL);
+        }
+
+        // 重置的密码为空，则使用默认密码
+        if (StringUtils.isEmpty(newPassword)) {
+            newPassword = initialPassword;
+        }
+
+        SystemUser user = systemUserService.getUserById(Integer.valueOf(userId));
+
+        // 未查到用户
+        if (user == null) {
+            return JsonResult.error(ReturnCode.PASSWORD_UPDATE_FAIL);
+        }
+
+        return doUpdatePassword(user.getUsername(), newPassword);
+
+    }
+
 
     /**
      * 修改密码
@@ -111,14 +145,7 @@ public class SystemUserController extends BaseController {
         }
 
         // 加密新密码并更新数据库
-        int result = systemUserService.updatePassword(username, newPassword);
-
-        // 插入数据库失败的情况
-        if (result != 1) {
-            return JsonResult.error(ReturnCode.PASSWORD_UPDATE_FAIL);
-        }
-
-        return JsonResult.ok();
+        return doUpdatePassword(username, newPassword);
     }
 
     /**
@@ -139,5 +166,24 @@ public class SystemUserController extends BaseController {
         } else {
             return JsonResult.error(ReturnCode.REQUEST_FAIL);
         }
+    }
+
+    /**
+     * 调用Service层执行密码更新操作
+     *
+     * @param username    用户名
+     * @param newPassword 新密码
+     * @return 更新密码操作的结果
+     */
+    private JsonResult doUpdatePassword(String username, String newPassword) {
+        // 加密新密码并更新数据库
+        int result = systemUserService.updatePassword(username, newPassword);
+
+        // 插入数据库失败的情况
+        if (result != 1) {
+            return JsonResult.error(ReturnCode.PASSWORD_UPDATE_FAIL);
+        }
+
+        return JsonResult.ok();
     }
 }

@@ -1,9 +1,9 @@
 import login from './login';
-import saveUser from './user'
+import user from './user'
 
 let allApi = Object.assign(
   login,
-  saveUser
+  user
 );
 
 export default allApi;

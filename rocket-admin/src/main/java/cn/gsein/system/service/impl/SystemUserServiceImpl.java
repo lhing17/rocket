@@ -43,6 +43,16 @@ public class SystemUserServiceImpl implements SystemUserService {
     }
 
     /**
+     * 根据ID获取系统用户
+     * @param userId 用户ID
+     * @return 系统用户
+     */
+    @Override
+    public SystemUser getUserById(Integer userId){
+        return systemUserMapper.getById(userId);
+    }
+
+    /**
      * 将用户密码加密后将用户信息存入数据库中
      *
      * @param user 前端传递过来的用户信息
