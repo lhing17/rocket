@@ -8,6 +8,7 @@ import cn.gsein.system.service.SystemUserService;
 import cn.gsein.system.utils.ReturnCode;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +27,9 @@ import javax.annotation.Resource;
 @RestController
 @RequestMapping("/system/user")
 public class SystemUserController extends BaseController {
+
+    @Value("${system.user.initialPassword}")
+    private String initialPassword;
 
     /**
      * 注入系统用户业务层接口
@@ -50,9 +54,14 @@ public class SystemUserController extends BaseController {
     public JsonResult save(SystemUser user) {
         logger.info("请求新增用户，参数为SystemUser: " + user);
 
-        // 防御式编程，处理用户名或密码为空的情况
-        if (StringUtils.isEmpty(user.getUsername()) || StringUtils.isEmpty(user.getPassword())) {
+        // 防御式编程，处理用户名为空的情况
+        if (StringUtils.isEmpty(user.getUsername())) {
             return JsonResult.error(ReturnCode.EMPTY_USERNAME_OR_PASSWORD);
+        }
+
+        // 如果密码为空，设置为初始密码
+        if(StringUtils.isEmpty(user.getPassword())){
+            user.setPassword(initialPassword);
         }
 
         // 处理用户名已存在的情况

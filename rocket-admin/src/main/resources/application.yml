@@ -45,6 +45,9 @@ mybatis:
   type-aliases-package: cn.gsein
   configuration:
     map-underscore-to-camel-case: true
+system:
+  user:
+    initialPassword: 123456
 
 crypto:
   algorithm-name: SHA-256

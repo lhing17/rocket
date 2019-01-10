@@ -1,23 +1,23 @@
 <template>
   <div class="user-dialog">
     <el-dialog width="30%" :title="title" :visible="dialogFormVisible" @close="dialogFormVisible=false">
-      <el-form :model="form" label-width="80px">
-        <edit-item label-name="用户名">
+      <el-form :model="form" :rules="rules" label-width="80px" ref="form">
+        <edit-item label-name="用户名" prop-name="username">
           <el-input v-model="form.username"></el-input>
         </edit-item>
-        <edit-item label-name="昵称">
+        <edit-item label-name="昵称" prop-name="nickname">
           <el-input v-model="form.nickname"></el-input>
         </edit-item>
-        <edit-item label-name="性别">
-          <el-radio-group v-model="form.gender" size="">
+        <edit-item label-name="性别" prop-name="gender">
+          <el-radio-group v-model="form.gender">
             <el-radio :label="1">男</el-radio>
             <el-radio :label="0">女</el-radio>
           </el-radio-group>
         </edit-item>
-        <edit-item label-name="电子邮箱">
+        <edit-item label-name="电子邮箱" prop-name="email">
           <el-input v-model="form.email"></el-input>
         </edit-item>
-        <edit-item label-name="手机号码">
+        <edit-item label-name="手机号码" prop-name="mobile">
           <el-input v-model="form.mobile"></el-input>
         </edit-item>
       </el-form>
@@ -41,7 +41,32 @@
     },
     data() {
       return {
-        form: {username: '', nickname: '', gender: 0, email: '', mobile: ''}
+        btnLoading: false,
+        form: {username: '', nickname: '', gender: 0, email: '', mobile: ''},
+        rules: {
+          username:
+            [
+              {required: true, message: '用户名不能为空', trigger: 'blur'},
+              {max: 15, message: '用户名过长', trigger: 'blur'}
+            ],
+          email: {type: 'email', message: '请输入正确的邮箱', trigger: 'blur'},
+          mobile: {pattern: /^\d{11}$/, message: '请输入正确的手机号', trigger: 'blur'}
+        }
+      }
+    },
+    methods: {
+      btnOk() {
+        this.$refs.form.validate(
+          valid => {
+            if (valid) {
+              this.$emit('val-change', this.form)
+            } else {
+              console.log('验证失败');
+              return false;
+            }
+          }
+        );
+
       }
     },
     components: {

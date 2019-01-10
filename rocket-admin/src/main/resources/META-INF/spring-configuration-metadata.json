@@ -32,6 +32,11 @@
       "name": "spring.datasource.publicKey",
       "type": "java.lang.String",
       "description": "Description for spring.datasource.publicKey."
+    },
+    {
+      "name": "system.user.initialPassword",
+      "type": "java.lang.String",
+      "description": "Description for system.user.initialPassword."
     }
   ]
 }

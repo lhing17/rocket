@@ -2,7 +2,7 @@
 <template>
   <el-row>
     <el-col :span="16" :offset="3">
-      <el-form-item :label="labelName">
+      <el-form-item :label="labelName" :prop="propName">
         <slot></slot>
       </el-form-item>
     </el-col>
@@ -12,7 +12,7 @@
 <script>
   export default {
     name: "EditItem",
-    props: {labelName:String}
+    props: {labelName:String, propName:String}
   }
 </script>
 

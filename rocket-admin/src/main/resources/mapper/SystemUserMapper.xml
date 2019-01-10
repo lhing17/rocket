@@ -82,8 +82,8 @@
 
     <!--更新系统用户信息-->
     <insert id="save" parameterType="systemUser" useGeneratedKeys="true">
-        insert into sys_user (username, password, salt, nickname, gender, email, mobile, dept_id, status)
-        values (#{username}, #{password}, #{salt}, #{nickname}, #{gender}, #{email}, #{mobile}, #{deptId}, #{status})
+        insert into sys_user (username, password, salt, nickname, gender, email, mobile, dept_id)
+        values (#{username}, #{password}, #{salt}, #{nickname}, #{gender}, #{email}, #{mobile}, #{deptId})
     </insert>
 
 

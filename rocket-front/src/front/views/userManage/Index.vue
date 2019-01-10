@@ -64,11 +64,12 @@
         </template>
       </el-table-column>
     </el-table>
-    <Paginator list-url="/system/user/list" @paginatorToParent="receiveData"></Paginator>
+    <Paginator ref="paginator" list-url="/system/user/list" @paginatorToParent="receiveData"></Paginator>
     <user-edit
       :title="userEdit"
       :dialogFormVisible="dialogFormVisible"
       @cancel="dialogFormVisible = false"
+      @val-change="saveUser"
     >
 
     </user-edit>
@@ -81,6 +82,7 @@
 
   import Paginator from "../../components/Paginator";
   import UserEdit from './UserEdit'
+
 
   export default {
 
@@ -124,6 +126,15 @@
       },
       editUser(data) {
         this.dialogFormVisible = true;
+      },
+      saveUser(data) {
+        this.$Api.saveUser(data).then(resp => {
+          if (resp.data && resp.data.code === '200'){
+            this.$refs.paginator.paginate();
+          }
+          console.log(resp);
+          this.dialogFormVisible = false;
+        })
       },
       UploadUser(data) {
 
