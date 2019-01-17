@@ -1,5 +1,6 @@
 package cn.gsein.system.mapper;
 
+import cn.gsein.common.mapper.BaseMapper;
 import cn.gsein.system.entity.UserRole;
 import org.springframework.stereotype.Repository;
 

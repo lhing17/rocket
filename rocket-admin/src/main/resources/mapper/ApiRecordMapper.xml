@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.gsein.common.mapper.ApiRecordMapper">
+    <sql id="baseGet">
+        select id, name, params, result
+        from sys_api_record
+    </sql>
+    <select id="getById" parameterType="string" resultType="apiRecord">
+        <include refid="baseGet"/>
+        where id = #{id} and is_deleted = 0
+    </select>
+    <update id="deleteById" parameterType="string">
+        update sys_api_record
+        set is_deleted   = 1,
+            updated_time = current_timestamp()
+        where id = #{id}
+          and is_deleted = 0
+    </update>
+    <insert id="save" parameterType="apiRecord">
+        insert into sys_api_record
+            (id, name, params, result)
+        values (#{id}, #{name}, #{params}, #{result})
+    </insert>
+    <update id="update" parameterType="apiRecord">
+        update sys_api_record
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="params != null and params != ''">
+                params = #{params},
+            </if>
+            <if test="result != null and result != ''">
+                result = #{result},
+            </if>
+          updated_time = current_timestamp()
+        </set>
+        where id = #{id} and is_deleted = 0
+    </update>
+</mapper>

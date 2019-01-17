@@ -1,4 +1,4 @@
-package cn.gsein.system.entity;
+package cn.gsein.common.entity;
 
 import lombok.Data;
 

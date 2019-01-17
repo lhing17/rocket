@@ -1,4 +1,4 @@
-package cn.gsein.system.mapper;
+package cn.gsein.common.mapper;
 
 import java.util.List;
 import java.util.Map;

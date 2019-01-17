@@ -1,10 +1,13 @@
 package cn.gsein.system.entity;
 
+import cn.gsein.common.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 /**
  * 菜单实体类
@@ -17,7 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Menu extends BaseEntity {
+public class Menu extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     /**
      * 主键

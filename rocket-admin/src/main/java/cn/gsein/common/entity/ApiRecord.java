@@ -1,6 +1,5 @@
-package cn.gsein.system.entity;
+package cn.gsein.common.entity;
 
-import cn.gsein.common.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -9,27 +8,33 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * 角色实体类
+ * API调用记录
  *
- * @author G.Seinfeld
- * @date 2019/1/2
+ * @author G_Seinfeld
+ * @date 2019/1/17
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class Role extends BaseEntity implements Serializable {
+@AllArgsConstructor
+public class ApiRecord extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
+
     /**
      * 主键
      */
     private Integer id;
     /**
-     * 名称
+     * API名称
      */
     private String name;
     /**
-     * 描述
+     * 请求参数
      */
-    private String description;
+    private String params;
+    /**
+     * 返回结果
+     */
+    private String result;
+
 }

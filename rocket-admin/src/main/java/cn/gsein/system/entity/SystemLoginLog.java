@@ -1,5 +1,6 @@
 package cn.gsein.system.entity;
 
+import cn.gsein.common.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
