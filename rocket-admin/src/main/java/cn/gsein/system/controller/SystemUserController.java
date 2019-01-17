@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * 系统用户相关的控制器类
@@ -83,6 +82,38 @@ public class SystemUserController extends BaseController {
     }
 
     /**
+     * 更新用户信息
+     *
+     * @param user 封装的用户信息
+     * @return JSON结果
+     */
+    @RequiresPermissions("system:user:update")
+    @PutMapping("/update")
+    public JsonResult update(SystemUser user) {
+        logger.info("请求修改用户，参数为SystemUser: " + user);
+
+        // 要修改用户的ID为空
+        if (user.getId() == null){
+            return JsonResult.error(ReturnCode.NULL_ID);
+        }
+
+        // 防御式编程，处理用户名为空的情况
+        if (StringUtils.isEmpty(user.getUsername())) {
+            return JsonResult.error(ReturnCode.EMPTY_USERNAME_OR_PASSWORD);
+        }
+
+        // 将用户信息插入数据库
+        int result = systemUserService.updateUser(user);
+
+        // 插入数据库失败的情况
+        if (result != 1) {
+            return JsonResult.error(ReturnCode.USER_SAVE_FAIL);
+        }
+
+        return JsonResult.ok();
+    }
+
+    /**
      * 管理员重置密码
      *
      * @param newPassword 重置的新密码，如为空，则重置为默认密码
@@ -90,7 +121,7 @@ public class SystemUserController extends BaseController {
      */
     @RequiresPermissions("system:user:reset")
     @PutMapping("/resetPassword")
-    public JsonResult resetPassword(HttpServletRequest request, String userId, String newPassword) {
+    public JsonResult resetPassword(String userId, String newPassword) {
         logger.info("管理员请求重置密码，userId: " + userId + ", newPassword: " + newPassword);
 
         // 用户ID为空

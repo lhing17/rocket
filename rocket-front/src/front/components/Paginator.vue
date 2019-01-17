@@ -50,7 +50,7 @@
         axios.get(`${this.listUrl}?current=${this.currentPage}&pageSize=${this.pageSize}`)
           .then(resp => {
             if (resp.data && resp.data.code === '200') {
-              console.log(resp.data);
+              // console.log(resp.data);
               this.$emit('paginatorToParent', resp.data.data.list);
               this.total = resp.data.data.total;
               this.currentPage = resp.data.data.pageNum;

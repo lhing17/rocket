@@ -72,6 +72,12 @@
         where username = #{username} and is_deleted = 0
     </update>
 
+    <!--根据ID修改系统用户-->
+    <update id="update" parameterType="systemUser">
+        <include refid="baseUpdate"/>
+        where id = #{id} and is_deleted = 0
+    </update>
+
     <!--根据ID删除用户-->
     <update id="deleteById" parameterType="integer">
         update sys_user

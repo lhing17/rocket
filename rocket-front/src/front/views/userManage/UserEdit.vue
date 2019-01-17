@@ -1,9 +1,9 @@
 <template>
   <div class="user-dialog">
-    <el-dialog width="30%" :title="title" :visible="dialogFormVisible" @close="dialogFormVisible=false">
+    <el-dialog width="30%" :title="title" :visible="dialogFormVisible" :show-close="false">
       <el-form :model="form" :rules="rules" label-width="80px" ref="form">
         <edit-item label-name="用户名" prop-name="username">
-          <el-input v-model="form.username"></el-input>
+          <el-input v-model="form.username" :disabled="disabled"></el-input>
         </edit-item>
         <edit-item label-name="昵称" prop-name="nickname">
           <el-input v-model="form.nickname"></el-input>
@@ -37,12 +37,14 @@
     name: "UserEdit",
     props: {
       dialogFormVisible: Boolean,
-      title: String
+      title: String,
+      data: [Object, Boolean]
     },
     data() {
       return {
+        disabled: false,
         btnLoading: false,
-        form: {username: '', nickname: '', gender: 0, email: '', mobile: ''},
+        form: {id: null, username: '', nickname: '', gender: 0, email: '', mobile: ''},
         rules: {
           username:
             [
@@ -52,6 +54,24 @@
           email: {type: 'email', message: '请输入正确的邮箱', trigger: 'blur'},
           mobile: {pattern: /^\d{11}$/, message: '请输入正确的手机号', trigger: 'blur'}
         }
+      }
+    },
+    watch: {
+      'data': {
+        handler: function () {
+          if (this.data) {
+            for (let k in this.form) {
+              this.form[k] = this.data[k];
+            }
+            this.disabled = true;
+          } else {
+            for (let k in this.form) {
+              this.form[k] = '';
+            }
+            this.disabled = false;
+          }
+        },
+        deep: true
       }
     },
     methods: {

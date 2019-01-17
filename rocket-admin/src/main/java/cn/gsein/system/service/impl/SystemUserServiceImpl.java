@@ -70,6 +70,15 @@ public class SystemUserServiceImpl implements SystemUserService {
         return systemUserMapper.save(user);
     }
 
+    /**
+     * 更新用户信息
+     * @param user 用户信息
+     * @return 是否更新成功，更新成功返回1，否则返回0
+     */
+    @Override
+    public int updateUser(SystemUser user) {
+        return systemUserMapper.update(user);
+    }
 
     /**
      * 更新用户的密码

@@ -1,7 +1,7 @@
 <template>
   <div class="user-list">
     <ToolBar>
-      <el-button type="primary" icon="el-icon-plus" size="small" @click="editUser(false)">添加</el-button>
+      <el-button type="primary" icon="el-icon-plus" size="small" @click="editUserPage(false)">添加</el-button>
       <div style="float: right">
         <el-input
           placeholder="请输入用户昵称！"
@@ -57,7 +57,7 @@
         <template slot-scope="scope">
           <el-button @click="resetting(scope.row.id)" type="warning" style="transition: .4s;" :ref="scope.row.id"
                      icon="el-icon-refresh" size="small" circle></el-button>
-          <el-button @click="editUser(scope.row)" type="primary" icon="el-icon-edit" size="small" circle></el-button>
+          <el-button @click="editUserPage(scope.row)" type="primary" icon="el-icon-edit" size="small" circle></el-button>
           <el-button @click="deleteUser(scope.row.id)" v-if="scope.row.active != '0'" type="danger"
                      icon="el-icon-delete" circle size="small"></el-button>
           <el-button @click="deleteUser(scope.row.id)" v-else icon="el-icon-check" circle size="small"></el-button>
@@ -68,8 +68,9 @@
     <user-edit
       :title="userEdit"
       :dialogFormVisible="dialogFormVisible"
+      :data="editData"
       @cancel="dialogFormVisible = false"
-      @val-change="saveUser"
+      @val-change="saveOrUpdateUser"
     >
 
     </user-edit>
@@ -95,7 +96,8 @@
         },
         listData: [],
         userEdit: '编辑用户',
-        dialogFormVisible: false
+        dialogFormVisible: false,
+        editData: false
       }
     },
     methods: {
@@ -126,28 +128,53 @@
           }
         }, '操作');
       },
-      editUser(data) {
+      editUserPage(data) {
         this.dialogFormVisible = true;
+        if (data) {
+          this.editData = data;
+        } else {
+          this.editData = false;
+        }
       },
-      saveUser(data) {
-        this.$Api.saveUser(data).then(resp => {
-          if (resp.data && resp.data.code === '200') {
-            this.$refs.paginator.paginate();
-          }
-          console.log(resp);
-          this.dialogFormVisible = false;
-        })
+      saveOrUpdateUser(data) {
+        console.log(data);
+        // id为null，新增用户
+        if (data.id === null){
+          this.$Api.saveUser(data).then(resp => {
+            if (resp.data && resp.data.code === '200') {
+              this.$refs.paginator.paginate();
+              this.dialogFormVisible = false;
+            } else {
+              this.$message({
+                message: resp.data.message,
+                type: 'error'
+              });
+            }
+          })
+          // id不为null，修改用户
+        } else {
+          this.$Api.updateUser(data).then(resp => {
+            if (resp.data && resp.data.code === '200') {
+              this.$refs.paginator.paginate();
+              this.dialogFormVisible = false;
+            } else {
+              this.$message({
+                message: resp.data.message,
+                type: 'error'
+              });
+            }
+          })
+        }
+
       },
       UploadUser(data) {
 
       },
       deleteUser(id) {
-
         this.$message({
           message: '这里请求api删除或者恢复用户之后刷新分页组件，列表自动更新',
           type: 'success'
         });
-
       },
       resetting(id) {
         let dom = this.$refs[id].$el;

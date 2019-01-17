@@ -8,11 +8,15 @@ export default {
       method: 'post',
       data: qs.stringify(user)
     }),
-  resetPassword: (userId) => {
-    console.log(qs.stringify({userId: userId}));
+  updateUser: (user) =>
+    request({
+      url: '/system/user/update?' + qs.stringify(user),
+      method: 'put',
+    }),
+  resetPassword: (userId) =>
     request({
       url: '/system/user/resetPassword?' + qs.stringify({userId: userId}),
       method: 'put'
-    })
-  }
+    }),
+
 };

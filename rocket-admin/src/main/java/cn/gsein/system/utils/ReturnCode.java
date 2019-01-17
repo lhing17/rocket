@@ -24,7 +24,9 @@ public enum ReturnCode {
     PASSWORD_UPDATE_FAIL("5097", "修改密码失败"),
     USER_SAVE_FAIL("5098", "保存用户失败"),
     AUTHENTICATION_FAIL("5099", "账户验证失败"),
+    NULL_ID("5998", "ID为空"),
     REQUEST_FAIL("5999", "请求失败");
+
 
     private String code;
     private String message;

@@ -34,6 +34,13 @@ public interface SystemUserService {
     int saveUser(SystemUser user);
 
     /**
+     * 更新用户信息
+     * @param user 用户信息
+     * @return 是否更新成功，更新成功返回1，否则返回0
+     */
+    int updateUser(SystemUser user);
+
+    /**
      * 更新用户的密码
      * @param username 用户名
      * @param password 密码
