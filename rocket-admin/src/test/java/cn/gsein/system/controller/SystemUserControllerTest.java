@@ -33,22 +33,6 @@ public class SystemUserControllerTest extends BaseControllerTest {
     }
 
     /**
-     * 测试密码为空的场景
-     */
-    @Test
-    public void saveUserPasswordEmpty() throws Exception {
-        MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>(16);
-        paramMap.add("username", "g_seinfeld");
-        mockMvc.perform(MockMvcRequestBuilders.post("/system/user/save")
-                .session(getLoginSession())
-                .params(paramMap)
-                .accept(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(MockMvcResultMatchers.jsonPath("code").value("5005"))
-                .andExpect(MockMvcResultMatchers.jsonPath("message").value("用户名或密码为空"))
-                .andExpect(MockMvcResultMatchers.jsonPath("data").isEmpty());
-    }
-
-    /**
      * 测试用户名已存在的场景
      */
     @Test
@@ -94,6 +78,31 @@ public class SystemUserControllerTest extends BaseControllerTest {
     @Transactional
     public void changePasswordSuccess() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.put("/system/user/changePassword?oldPassword=123456&newPassword=654321")
+                .session(getLoginSession())
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(MockMvcResultMatchers.jsonPath("code").value("200"))
+                .andExpect(MockMvcResultMatchers.jsonPath("message").value("请求成功"))
+                .andExpect(MockMvcResultMatchers.jsonPath("data").isEmpty());
+    }
+
+    /**
+     * 测试重置用户密码成功的场景
+     */
+    @Test
+    @Transactional
+    public void resetPasswordSuccess() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.put("/system/user/resetPassword?userId=1&newPassword=654321")
+                .session(getLoginSession())
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(MockMvcResultMatchers.jsonPath("code").value("200"))
+                .andExpect(MockMvcResultMatchers.jsonPath("message").value("请求成功"))
+                .andExpect(MockMvcResultMatchers.jsonPath("data").isEmpty());
+    }
+
+    @Test
+    @Transactional
+    public void updateUserSuccess() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.put("/system/user/update?id=1&username=g_seinfeld&mobile=13253392599")
                 .session(getLoginSession())
                 .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(MockMvcResultMatchers.jsonPath("code").value("200"))

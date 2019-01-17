@@ -61,6 +61,25 @@ public class SystemUserServiceTest {
     }
 
     /**
+     * 测试更新用户的方法
+     */
+    @Transactional
+    @Test
+    public void updateUser(){
+        SystemUser systemUser = SystemUser.builder()
+                .id(1)
+                .mobile("13253392599")
+                .email("seinfeld@gmail.com")
+                .build();
+        int result = systemUserService.updateUser(systemUser);
+        Assertions.assertThat(result).isEqualTo(1);
+
+        SystemUser nowUser = systemUserService.getUserById(1);
+        Assertions.assertThat(nowUser).hasFieldOrPropertyWithValue("mobile", "13253392599");
+        Assertions.assertThat(nowUser).hasFieldOrPropertyWithValue("email", "seinfeld@gmail.com");
+    }
+
+    /**
      * 测试修改用户密码的方法
      */
     @Test
